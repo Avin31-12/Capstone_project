@@ -189,7 +189,7 @@ def smart_channel_selector(event, customer):
 
         scores[ch] = round(score, 2)
 
-    st.sidebar.subheader("🤖 Channel AI Scores")
+    st.sidebar.subheader("Channel AI Scores")
     st.sidebar.json(scores)
 
     return max(scores, key=scores.get)
@@ -234,13 +234,13 @@ def simulate(event, customer, channel):
 
     if channel == "AUTO":
         channel = smart_channel_selector(event, customer)
-        st.success(f"🤖 Selected Channel: {channel}")
+        st.success(f" Selected Channel: {channel}")
 
     score, spam, reasons = spam_detection_engine(customer, event, channel)
 
     if spam == "BLOCKED":
         log_event(event, customer, channel, "BLOCKED", 0, score, spam)
-        return "❌ BLOCKED — Too many attempts!"
+        return " BLOCKED — Too many attempts!"
 
     # Failure probability
     success_rate = df[df["event_type"] == event]["delivered_flag"].mean()
@@ -293,7 +293,7 @@ section[data-testid="stSidebar"]{background:#020617}
 """, unsafe_allow_html=True)
 
 
-st.sidebar.title("🚀 TrustNotify AI")
+st.sidebar.title(" TrustNotify AI")
 menu = st.sidebar.radio("Menu", [
     "Dashboard", "Simulation", "SLA Reports",
     "Database Logs", "Spam Monitor", "Raw Data"
@@ -304,7 +304,7 @@ menu = st.sidebar.radio("Menu", [
 # DASHBOARD
 # ======================================
 if menu == "Dashboard":
-    st.title("📊 Notification Command Center")
+    st.title("Notification Command Center")
 
     colA, colB = st.columns(2)
     e = colA.selectbox("Event", ["All"] + sorted(df["event_type"].unique()))
@@ -346,7 +346,7 @@ if menu == "Dashboard":
 # SIMULATION
 # ======================================
 elif menu == "Simulation":
-    st.title("🧪 Notification Simulator")
+    st.title(" Notification Simulator")
 
     e = st.selectbox("Event", sorted(df["event_type"].unique()))
     c = st.text_input("Customer ID", "1001")
@@ -362,7 +362,7 @@ elif menu == "Simulation":
 # SLA REPORT
 # ======================================
 elif menu == "SLA Reports":
-    st.title("📄 SLA Compliance Dashboard")
+    st.title(" SLA Compliance Dashboard")
 
     logs = st.session_state.event_log
 
@@ -378,9 +378,9 @@ elif menu == "SLA Reports":
             "Current %": [f"{delivery:.1f}%", f"{retry:.1f}%", f"{blocked:.1f}%"],
             "SLA Target": [">=99%", "<=5%", "<=1%"],
             "Status": [
-                "✅" if delivery >= 99 else "🔴",
-                "✅" if retry <= 5 else "🔴",
-                "✅" if blocked <= 1 else "🔴"
+                " " if delivery >= 99 else "🔴",
+                " " if retry <= 5 else "🔴",
+                " " if blocked <= 1 else "🔴"
             ]
         })
 
@@ -404,7 +404,7 @@ elif menu == "Spam Monitor":
     spam = spam[spam["SpamStatus"] != "ALLOW"]
 
     if spam.empty:
-        st.success("✅ No spam detected.")
+        st.success(" No spam detected.")
     else:
         st.dataframe(spam.sort_values("Time", ascending=False))
 
